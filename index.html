@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Website</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00FF00;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        .matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .title {
+            text-align: center;
+            font-size: 3em;
+            margin-top: 20vh;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 2vh;
+        }
+        .content {
+            text-align: center;
+            margin-top: 5vh;
+        }
+        .content p {
+            font-size: 1.2em;
+            line-height: 1.5em;
+            margin: 0 10%;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 5vh;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #00FF00;
+            border: 2px solid #00FF00;
+            background-color: black;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .button:hover {
+            background-color: #00FF00;
+            color: black;
+        }
+        @keyframes rain {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .rain {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background-color: #00FF00;
+            animation: rain 1s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix"></canvas>
+    <div class="title">Welcome to the Matrix</div>
+    <div class="subtitle">Experience the Future</div>
+    <div class="content">
+        <p>This website is inspired by the Matrix, a simulated reality. Dive into the world of the Matrix, where the boundaries between reality and illusion are blurred.</p>
+        <a href="#" class="button">Enter the Matrix</a>
+    </div>
+    <script>
+        const canvas = document.querySelector('.matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrixCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00FF00';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixCharacters.charAt(Math.floor(Math.random() * matrixCharacters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+    </script>
+</body>
+</html>
